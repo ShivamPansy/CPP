@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void helper(string s, int i){
+    if(i == s.length()-1){
+        cout<<s<<"\n";
+        return;
+    }
+    for(int j=i; j<s.length();j++){
+        cout<<i<<" "<<j<<"\n";
+        swap(s[i], s[j]);
+        cout<<s<<"\n";
+        helper(s, i+1);
+        swap(s[i], s[j]);
+    }
+}
+
+int main() {
+    // Write C++ code here
+    helper("ABC", 0);
+
+    return 0;
+}
+
+
+//OUTPUT:-
+
+0 0
+ABC
+1 1
+ABC
+ABC
+1 2
+ACB
+ACB
+0 1
+BAC
+1 1
+BAC
+BAC
+1 2
+BCA
+BCA
+0 2
+CBA
+1 1
+CBA
+CBA
+1 2
+CAB
+CAB
