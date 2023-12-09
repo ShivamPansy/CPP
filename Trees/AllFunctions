@@ -1,0 +1,90 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node{
+    int data;
+    Node *right;
+    Node * left;
+    Node(int x){
+        this->data =x;
+        this->right = NULL;
+        this->left = NULL;
+    }
+};
+
+int height(Node *root){
+    if(root == NULL){
+        return 0;
+    }
+    
+    return max(height(root->left), height(root->right))+1;
+}
+
+vector<int> boundaryTraversal(Node *root){
+    vector<int>result;
+    if(root == NULL){
+        return result;
+    }
+    
+    queue<Node *>q;
+    stack<int>st;
+    q.push(root);
+    
+    int h = height(root);
+    int level = 0;
+    while(q.empty()==false and level<h-1){
+        int count = q.size();
+        
+        for(int i=0;i<count;i++){
+            Node *front = q.front();
+            q.pop();
+            if(i==0){
+                result.push_back(front->data);
+            }
+            if(i==count-1 and level != 0){
+                st.push(front->data);
+            }
+            
+            if(front->left){
+                q.push(front->left);
+            }
+            if(front->right){
+                q.push(front->right);
+            }
+        }
+        
+        level++;
+    }
+    
+    while(q.empty()==false){
+        result.push_back(q.front()->data);
+        q.pop();
+    }
+    
+    while(st.empty()==false){
+        result.push_back(st.top());
+        st.pop();
+    }
+}
+
+int main(){
+    Node *root = new Node(1);
+    root->left = new Node(2);
+    root->left->left = new Node(3);
+    root->left->left->right = new Node(4);
+    root->left->left->right->left = new Node(5);
+    root->left->left->right->right = new Node(6);
+    root->right = new Node(7);
+    root->right->right = new Node(8);
+    root->right->right->left = new Node(9);
+    root->right->right->left->left = new Node(10);
+    root->right->right->left->right = new Node(11);
+    
+    vector<int>result = boundaryTraversal(root);
+    
+    cout<<"\n";
+    for(auto x: result){
+        cout<<x<<" ";
+    }
+    
+}
